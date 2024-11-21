@@ -21,7 +21,7 @@ This project features a clean and intuitive **login system** for authentication,
 
 1. **Clone this repository**:
    ```
-   git clone https://github.com/yourusername/protracl.git
+   git clone [Protracl](https://github.com/Njengah/Protracl)
    cd protracl
 2. Install client dependencies (for Next.js):
    ```
