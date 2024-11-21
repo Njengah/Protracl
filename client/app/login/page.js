@@ -1,5 +1,3 @@
-// app/login/page.js
-
 "use client"; // Marking this file as a client component
 
 import { useState } from "react"; // React hooks
@@ -34,9 +32,28 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-6">Login to Protracl</h2>
+        <h2 className="text-2xl font-semibold mb-6">Protracl Login</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <LoginForm onLogin={handleLogin} /> {/* Pass handleLogin as a prop */}
+        <div className="mt-4">
+          {/* Forgot Password Link */}
+          <div className="text-center text-sm">
+            <a
+              href="/forgot-password"
+              className="text-blue-500 hover:underline"
+            >
+              Forgot Password?
+            </a>
+          </div>
+
+          {/* Register Link */}
+          <div className="text-center text-sm mt-2">
+            <span>Don't have an account? </span>
+            <a href="/register" className="text-blue-500 hover:underline">
+              Register
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

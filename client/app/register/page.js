@@ -32,7 +32,7 @@ const RegistrationPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-6">Register for Protracl</h2>
+        <h2 className="text-2xl font-semibold mb-6"> Protracl Register</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <RegistrationForm onRegister={handleRegister} />{" "}
         {/* Pass handleRegister as a prop */}

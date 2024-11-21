@@ -26,6 +26,20 @@ const RegistrationForm = ({ onRegister }) => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <div className="mb-4">
+        <label htmlFor="full_name" className="block text-sm font-semibold mb-2">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="full_name"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          className="w-full p-2 border rounded"
+          required
+        />
+      </div>
+
+      <div className="mb-4">
         <label htmlFor="email" className="block text-sm font-semibold mb-2">
           Email
         </label>
@@ -48,20 +62,6 @@ const RegistrationForm = ({ onRegister }) => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        />
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="full_name" className="block text-sm font-semibold mb-2">
-          Full Name
-        </label>
-        <input
-          type="text"
-          id="full_name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
           className="w-full p-2 border rounded"
           required
         />
