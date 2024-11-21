@@ -1,0 +1,31 @@
+/protracl
+├── /client                     # Frontend (Next.js)
+│   ├── /components             # Reusable UI components (e.g., LoginForm, TaskList)
+│   ├── /pages                  # Pages for your app (Home, Login, Tasks, etc.)
+│   │   ├── index.js            # Home page
+│   │   ├── login.js            # Login page
+│   │   ├── tasks.js            # Task listing page
+│   ├── /context                # For managing global state (e.g., AuthContext)
+│   ├── /styles                 # Global CSS and/or Tailwind CSS config
+│   ├── /utils                  # Utility functions (e.g., API helpers)
+│   ├── next.config.js          # Next.js configuration file
+│   └── package.json            # Client-side dependencies
+│
+├── /server                     # Backend (FastAPI)
+│   ├── /app                    # FastAPI application
+│   │   ├── __init__.py
+│   │   ├── main.py             # FastAPI entry point
+│   │   ├── models.py           # SQLAlchemy models for the database
+│   │   ├── schemas.py          # Pydantic models for validation
+│   │   ├── crud.py             # Functions for interacting with the database
+│   │   ├── dependencies.py     # Database connection and dependency management
+│   │   ├── auth.py             # Authentication and JWT handling
+│   │   └── tasks.py            # Task-related API routes
+│   ├── /database               # Database initialization (e.g., SQLite/PostgreSQL setup)
+│   │   └── db.py
+│   ├── /tests                  # Tests for FastAPI backend
+│   ├── requirements.txt        # Backend dependencies
+│   ├── alembic.ini             # Alembic migrations setup (if using SQLAlchemy)
+│   └── Dockerfile              # If you plan to containerize the backend
+│
+└── docker-compose.yml          # Docker configuration (optional, for running client & server together)
