@@ -113,8 +113,10 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     if user is None or not verify_password(request.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
+    token_data = {"sub": user.email, "full_name": user.full_name}
+
     # Create JWT token on successful login
-    token = create_access_token({"sub": user.email})
+    token = create_access_token(token_data)
     return {"success": True, "token": token}
 
 
@@ -260,3 +262,11 @@ def reset_password(request: ResetPassword, db: Session = Depends(get_db)):
     db.refresh(user)
 
     return {"message": "Password successfully updated"}
+
+
+@app.get("/user/{email}")
+def get_user(email: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if user:
+        return {"email": user.email, "full_name": user.full_name}
+    raise HTTPException(status_code=404, detail="User not found")

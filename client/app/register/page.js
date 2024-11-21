@@ -1,44 +1,61 @@
-"use client"; // Marking this file as a client component
+"use client";
 
-import { useState } from "react"; // React hooks
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Next.js 13+ router
-import axios from "axios"; // Axios for making HTTP requests
-import RegistrationForm from "../components/RegistrationForm"; // Registration form component
 
-const RegistrationPage = () => {
-  const [error, setError] = useState(""); // Error state for registration
+const TasksPage = () => {
+  const [loading, setLoading] = useState(true); // State for loading
+  const [user, setUser] = useState(null); // State for storing user information
   const router = useRouter(); // Use Next.js router for navigation
 
-  const handleRegister = async (email, password, fullName) => {
-    try {
-      // Send POST request to FastAPI backend with email, password, and full name
-      const response = await axios.post("http://127.0.0.1:8000/register", {
-        email,
-        password,
-        full_name: fullName,
-      });
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
 
-      // If registration is successful, redirect to the login page
-      if (response.data.success) {
-        router.push("/login"); // Redirect to login page
-      } else {
-        setError(response.data.message); // Show error message if registration failed
-      }
-    } catch (err) {
-      setError("Something went wrong. Please try again."); // Handle error
+    if (!token) {
+      // Redirect to login if there's no token
+      router.push("/login");
+    } else {
+      // Decode the token to get user info (assuming you have user info like email)
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT token
+      console.log(decodedToken); // Log the decoded token to check its contents
+
+      setUser({
+        email: decodedToken.sub, // Assuming email is stored as 'sub'
+        fullName: decodedToken.full_name || "Unknown User", // Ensure fallback if full_name doesn't exist
+      });
+      setLoading(false); // Stop loading once authentication is verified
     }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Remove token from localStorage
+    router.push("/login"); // Redirect to login
   };
 
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state until verification
+  }
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-6"> Protracl Register</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <RegistrationForm onRegister={handleRegister} />{" "}
-        {/* Pass handleRegister as a prop */}
+    <div className="task-list">
+      {/* Display user information at the top */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-semibold">Hello, {user.fullName}</h2>
+          <p className="text-gray-600">Email: {user.email}</p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg"
+        >
+          Logout
+        </button>
       </div>
+
+      <h2 className="text-2xl font-semibold mb-6">Tasks Management</h2>
+      {/* Add your task management components here */}
     </div>
   );
 };
 
-export default RegistrationPage;
+export default TasksPage;
