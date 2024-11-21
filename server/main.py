@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
+from db import Project, User
 import jwt
 from datetime import datetime, timedelta
 from starlette.middleware.cors import CORSMiddleware
@@ -51,6 +52,17 @@ class ResetPasswordRequest(BaseModel):
 class ResetPassword(BaseModel):
     new_password: str
     token: str
+
+
+class ProjectCreate(BaseModel):
+    project_name: str
+    description: str
+    project_type: str
+    business_model: str
+    deadline: datetime
+    milestones: str
+    status: str
+    user_id: int
 
 
 # Dependency to get the database session
@@ -113,7 +125,12 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     if user is None or not verify_password(request.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    token_data = {"sub": user.email, "full_name": user.full_name}
+    # Include the user.id in the token data
+    token_data = {
+        "sub": user.email,
+        "full_name": user.full_name,
+        "id": user.id,
+    }  # Add user.id here
 
     # Create JWT token on successful login
     token = create_access_token(token_data)
@@ -220,3 +237,57 @@ def get_user(email: str, db: Session = Depends(get_db)):
     if user:
         return {"email": user.email, "full_name": user.full_name}
     raise HTTPException(status_code=404, detail="User not found")
+
+
+# Create a new project
+@app.post("/projects")
+def create_project(project: ProjectCreate, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == project.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    new_project = Project(
+        project_name=project.project_name,
+        description=project.description,
+        project_type=project.project_type,
+        business_model=project.business_model,
+        deadline=project.deadline,
+        milestones=project.milestones,
+        status=project.status,
+        user_id=project.user_id,
+    )
+
+    db.add(new_project)
+    db.commit()
+    db.refresh(new_project)
+    return new_project
+
+
+# Fetch projects for a specific user
+@app.get("/projects")
+def get_user_projects(user_id: int, db: Session = Depends(get_db)):
+    # Find the user by user_id
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Get all projects related to the user
+    projects = db.query(Project).filter(Project.user_id == user.id).all()
+
+    if not projects:
+        raise HTTPException(status_code=404, detail="No projects found for this user")
+
+    return projects
+
+
+# # Fetch projects for a specific user
+# @app.get("/user/{user_email}/projects")
+# def get_user_projects(user_email: str, db: Session = Depends(get_db)):
+#     # Find the user by email
+#     user = db.query(User).filter(User.email == user_email).first()
+#     if not user:
+#         raise HTTPException(status_code=404, detail="User not found")
+
+#     # Get all projects related to the user
+#     projects = db.query(Project).filter(Project.user_id == user.id).all()
+#     return projects
