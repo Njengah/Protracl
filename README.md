@@ -1,8 +1,12 @@
 # Protracl: Project Task Tracking Tool
 
-**Protracl** is a simple yet powerful task management application designed to help users stay organized and efficiently track their tasks. Built with **Next.js** for the frontend and **FastAPI** for the backend, **Protracl** provides a seamless experience for managing personal or work-related tasks.
+**Protracl** is a simple yet powerful task management application designed to help users stay organized and efficiently track their tasks.
 
-This project features a clean and intuitive **login system** for authentication, with **task creation**, **viewing**, and **deletion** functionality. It is built to be lightweight, scalable, and easy to extend with additional features like task prioritization, notifications, or real-time updates.
+Built with **Next.js** for the frontend and **FastAPI** for the backend, **Protracl** provides a seamless experience for managing personal or work-related tasks.
+
+This project features a clean and intuitive **login system** for authentication, with **task creation**, **viewing**, and **deletion** functionality.
+
+It is built to be lightweight, scalable, and easy to extend with additional features like task prioritization, notifications, or real-time updates.
 
 ## Technologies Used
 
@@ -24,7 +28,6 @@ This project features a clean and intuitive **login system** for authentication,
 1. **Clone this repository**
 
     git clone <https://github.com/Njengah/Protracl>
-    cd protracl
 
 2 **Install client dependencies (for Next.js)**
 
