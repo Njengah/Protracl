@@ -35,12 +35,10 @@ This project features a clean and intuitive **login system** for authentication,
 
  4. Run the project:
 
-  Client: Run the frontend (Next.js):
+  Client: Run the frontend (Next.js)
   
-    ```
-      npm run dev
+          npm run dev
 
  Server: Run the backend (FastAPI)
  
-     ```
-        uvicorn main:app --reload
+         uvicorn main:app --reload
