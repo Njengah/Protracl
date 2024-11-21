@@ -21,10 +21,10 @@ This project features a clean and intuitive **login system** for authentication,
 
 ## Setup
 
-1. **Clone this repository**:
+1. **Clone this repository**
 
-   git clone <https://github.com/Njengah/Protracl>
-   cd protracl
+    git clone <https://github.com/Njengah/Protracl>
+    cd protracl
 
 2 **Install client dependencies (for Next.js)**
 
@@ -33,14 +33,14 @@ This project features a clean and intuitive **login system** for authentication,
 
 3 **Install server dependencies (for FastAPI)**
 
-   cd server
-   pip install -r requirements.txt
+    cd server
+    npm pip install -r requirements.txt
 
  4 **Run the project**
 
   Client: Run the frontend (Next.js)
   
-          npm run dev
+         npm run dev
 
  Server: Run the backend (FastAPI)
 
