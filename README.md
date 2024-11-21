@@ -31,6 +31,7 @@ It is built to be lightweight, scalable, and easy to extend with additional feat
 
 2 **Install client dependencies (for Next.js)**
 
+    cd protracl
     cd client
     npm install
 
