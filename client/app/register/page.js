@@ -1,61 +1,46 @@
-"use client";
+"use client"; // Marking this file as a client component
 
-import { useState, useEffect } from "react";
+import { useState } from "react"; // React hooks
 import { useRouter } from "next/navigation"; // Next.js 13+ router
+import axios from "axios"; // Axios for making HTTP requests
+import RegistrationForm from "../components/RegistrationForm"; // Import your RegistrationForm component
 
-const TasksPage = () => {
-  const [loading, setLoading] = useState(true); // State for loading
-  const [user, setUser] = useState(null); // State for storing user information
+const RegisterPage = () => {
+  const [error, setError] = useState(""); // Error message state
+  const [message, setMessage] = useState(""); // Success message state
   const router = useRouter(); // Use Next.js router for navigation
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      // Redirect to login if there's no token
-      router.push("/login");
-    } else {
-      // Decode the token to get user info (assuming you have user info like email)
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT token
-      console.log(decodedToken); // Log the decoded token to check its contents
-
-      setUser({
-        email: decodedToken.sub, // Assuming email is stored as 'sub'
-        fullName: decodedToken.full_name || "Unknown User", // Ensure fallback if full_name doesn't exist
+  const handleRegister = async (email, password, fullName) => {
+    try {
+      // Send POST request to FastAPI backend for user registration
+      const response = await axios.post("http://127.0.0.1:8000/register", {
+        email,
+        password,
+        full_name: fullName,
       });
-      setLoading(false); // Stop loading once authentication is verified
-    }
-  }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Remove token from localStorage
-    router.push("/login"); // Redirect to login
+      setMessage(response.data.message); // Show success message
+
+      // Optionally, you can redirect to the login page after successful registration
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>; // Show loading state until verification
-  }
-
   return (
-    <div className="task-list">
-      {/* Display user information at the top */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-2xl font-semibold">Hello, {user.fullName}</h2>
-          <p className="text-gray-600">Email: {user.email}</p>
-        </div>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg"
-        >
-          Logout
-        </button>
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-semibold mb-6">Register for Protracl</h2>
+        {message && <p className="text-green-500 mb-4">{message}</p>}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <RegistrationForm onRegister={handleRegister} />{" "}
+        {/* Pass handleRegister as a prop */}
       </div>
-
-      <h2 className="text-2xl font-semibold mb-6">Tasks Management</h2>
-      {/* Add your task management components here */}
     </div>
   );
 };
 
-export default TasksPage;
+export default RegisterPage;

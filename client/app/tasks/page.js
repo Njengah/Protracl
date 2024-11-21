@@ -5,21 +5,17 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const TasksPage = () => {
-  const [loading, setLoading] = useState(true); // State for loading
-  const [user, setUser] = useState(null); // State for storing user information
-  const router = useRouter(); // Use Next.js router for navigation
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
     if (!token) {
-      // Redirect to login if there's no token
       router.push("/login");
     } else {
-      // Decode the token to get user info
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT token
-
-      // Fetch user details from backend using the email
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
       axios
         .get(`http://127.0.0.1:8000/user/${decodedToken.sub}`)
         .then((response) => {
@@ -34,17 +30,16 @@ const TasksPage = () => {
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Remove token from localStorage
-    router.push("/login"); // Redirect to login
+    localStorage.removeItem("authToken");
+    router.push("/login");
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state until verification
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="task-list">
-      {/* Display user information at the top */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-2xl font-semibold">Hello, {user?.full_name}</h2>
@@ -59,7 +54,6 @@ const TasksPage = () => {
       </div>
 
       <h2 className="text-2xl font-semibold mb-6">Tasks Management</h2>
-      {/* Add your task management components here */}
     </div>
   );
 };
