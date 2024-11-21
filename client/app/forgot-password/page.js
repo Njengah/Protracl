@@ -49,7 +49,7 @@ const ResetPasswordRequest = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg"
+            className="w-full bg-customdarkbtn text-white py-2 rounded-lg"
           >
             Request Reset
           </button>

@@ -4,13 +4,19 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #286b74;
+  --foreground: #005f67;
+  --accent: #cbe2f1;
+  --highlight: #e1f8fa;
+  --button: #005761;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #cbe2f1;
-    --foreground: #010e0e;
+    --foreground: #00021b;
+    --accent: #004f58;
+    --highlight: #003843;
+    --button: #003b3f;
   }
 }
 
@@ -20,11 +26,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .input {
   @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .btn {
-  @apply w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600;
+  @apply w-full py-2 bg-customdarkbtn text-white rounded-md hover:bg-teal-600;
 }
