@@ -1,31 +1,28 @@
-"use client"; // Marking this file as a client component
-
-import { useState } from "react"; // React hooks
-import { useRouter } from "next/navigation"; // Next.js 13+ router
-import axios from "axios"; // Axios for making HTTP requests
-import LoginForm from "../components/LoginForm"; // Login form component
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import LoginForm from "../components/LoginForm";
 
 const LoginPage = () => {
-  const [error, setError] = useState(""); // Error state for invalid login
-  const router = useRouter(); // Use Next.js router for navigation
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleLogin = async (email, password) => {
     try {
-      // Send POST request to FastAPI backend with email and password
       const response = await axios.post("http://127.0.0.1:8000/login", {
         email,
         password,
       });
 
-      // If login is successful, store JWT token and redirect
       if (response.data.success) {
-        localStorage.setItem("authToken", response.data.token); // Store token
-        router.push("/tasks"); // Redirect to tasks page
+        localStorage.setItem("authToken", response.data.token);
+        router.push("/tasks");
       } else {
-        setError("Invalid credentials"); // Set error message
+        setError("Invalid credentials");
       }
     } catch (err) {
-      setError("Something went wrong. Please try again."); // Handle error
+      setError("Something went wrong. Please try again.");
     }
   };
 
@@ -34,9 +31,8 @@ const LoginPage = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-semibold mb-6">Protracl Login</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <LoginForm onLogin={handleLogin} /> {/* Pass handleLogin as a prop */}
+        <LoginForm onLogin={handleLogin} />
         <div className="mt-4">
-          {/* Forgot Password Link */}
           <div className="text-center text-sm">
             <a
               href="/forgot-password"
@@ -46,7 +42,6 @@ const LoginPage = () => {
             </a>
           </div>
 
-          {/* Register Link */}
           <div className="text-center text-sm mt-2">
             <span>Don't have an account? </span>
             <a href="/register" className="text-blue-500 hover:underline">

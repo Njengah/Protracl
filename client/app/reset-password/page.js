@@ -1,23 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react"; // React hooks
-import { useRouter } from "next/navigation"; // Next.js 13+ router
-import axios from "axios"; // Axios for making HTTP requests
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const ResetPassword = () => {
-  const [token, setToken] = useState(null); // State for the token
+  const [token, setToken] = useState(null);
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const router = useRouter(); // Use Next.js router for navigation
+  const router = useRouter();
 
-  // Use useEffect to handle the query parameters
   useEffect(() => {
-    // Ensure router.query is ready before accessing token
     if (router.isReady && router.query?.token) {
-      setToken(router.query.token); // Set the token from the URL query
+      setToken(router.query.token);
     }
-  }, [router.isReady, router.query]); // Dependency on router.isReady and router.query
+  }, [router.isReady, router.query]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +28,6 @@ const ResetPassword = () => {
     }
 
     try {
-      // Send POST request to reset password endpoint with new password and token
       const response = await axios.post(
         "http://127.0.0.1:8000/reset-password",
         {
@@ -39,7 +36,7 @@ const ResetPassword = () => {
         }
       );
 
-      setMessage(response.data.message); // Show success message
+      setMessage(response.data.message);
     } catch (err) {
       setError("Something went wrong. Please try again.");
     }

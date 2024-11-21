@@ -4,8 +4,8 @@ import jwt
 from datetime import datetime, timedelta
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from db import User, SessionLocal  # Import the User model and session from db.py
-from passlib.context import CryptContext  # For password hashing
+from db import User, SessionLocal
+from passlib.context import CryptContext
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -16,13 +16,13 @@ app = FastAPI()
 # Add CORS middleware to allow requests from the frontend (Next.js on port 3000)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow only the Next.js frontend
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-SECRET_KEY = "your-secret-key"  # Replace with your actual secret key
+SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"  # JWT encoding algorithm
 
 # Initialize password context for hashing
@@ -161,9 +161,9 @@ def send_email(email: str, reset_token: str):
     SMTP_SERVER = "sandbox.smtp.mailtrap.io"
     SMTP_PORT = 587  # You can also use 25, 465, or 2525
     SMTP_USERNAME = "1cf7a9459b3a94"
-    SMTP_PASSWORD = "09419734a8017b"  # Replace with the correct password
+    SMTP_PASSWORD = "09419734a8017b"
 
-    sender_email = "joe@example.com"  # Replace with your email or use a sender address
+    sender_email = "joe@example.com"
     receiver_email = email
 
     # Create the email content
@@ -180,64 +180,14 @@ def send_email(email: str, reset_token: str):
     try:
         # Connect to Mailtrap SMTP server
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-            server.starttls()  # Secure the connection using STARTTLS
-            server.login(SMTP_USERNAME, SMTP_PASSWORD)  # Login to the server
+            server.starttls()
+            server.login(SMTP_USERNAME, SMTP_PASSWORD)
             server.sendmail(
                 sender_email, receiver_email, message.as_string()
             )  # Send email
             print(f"Password reset email sent to {email}")
     except Exception as e:
         print(f"Error sending email to {email}: {str(e)}")
-
-
-# Password reset request endpoint
-# @app.post("/forgot-password")
-# def reset_password_request(
-#     request: ResetPasswordRequest, db: Session = Depends(get_db)
-# ):
-#     # Find the user by email
-#     user = db.query(User).filter(User.email == request.email).first()
-
-#     if not user:
-#         raise HTTPException(status_code=404, detail="User not found")
-
-#     # Generate a password reset token (valid for 1 hour)
-#     reset_token = jwt.encode(
-#         {"sub": user.email, "exp": datetime.utcnow() + timedelta(hours=1)},
-#         SECRET_KEY,
-#         algorithm=ALGORITHM,
-#     )
-
-#     # Send the reset token to the user's email
-#     send_email(user.email, reset_token)
-
-#     return {"message": "Password reset email sent"}
-
-
-# Helper function to send email (implement your own email logic)
-# def send_email(email: str, reset_token: str):
-#     # This is just an example; replace it with your email provider's logic
-#     sender_email = "your-email@example.com"
-#     receiver_email = email
-#     subject = "Password Reset Request"
-#     body = f"Please click the link below to reset your password:\n\nhttp://localhost:3000/reset-password?token={reset_token}"
-
-#     message = MIMEMultipart()
-#     message["From"] = sender_email
-#     message["To"] = receiver_email
-#     message["Subject"] = subject
-#     message.attach(MIMEText(body, "plain"))
-
-#     # Use your email provider settings here
-#     try:
-#         server = smtplib.SMTP("smtp.example.com", 587)
-#         server.starttls()
-#         server.login(sender_email, "your-email-password")
-#         text = message.as_string()
-#         server.sendmail(sender_email, receiver_email, text)
-#         server.quit()
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail="Failed to send email")
 
 
 @app.post("/reset-password")

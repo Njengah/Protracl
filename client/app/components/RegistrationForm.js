@@ -1,20 +1,19 @@
-"use client"; // Marking this file as a client component
+"use client";
 
-import { useState } from "react"; // React hooks
-import axios from "axios"; // Axios for making HTTP requests
+import { useState } from "react";
+import axios from "axios";
 
 const RegistrationForm = ({ onRegister }) => {
-  const [email, setEmail] = useState(""); // Email state
-  const [password, setPassword] = useState(""); // Password state
-  const [fullName, setFullName] = useState(""); // Full name state
-  const [error, setError] = useState(""); // Error state for registration
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error message
+    setError("");
 
     try {
-      // Call the parent onRegister function to handle registration logic
       await onRegister(email, password, fullName);
     } catch (err) {
       setError("Registration failed. Please try again.");

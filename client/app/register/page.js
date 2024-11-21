@@ -1,27 +1,24 @@
-"use client"; // Marking this file as a client component
-
-import { useState } from "react"; // React hooks
-import { useRouter } from "next/navigation"; // Next.js 13+ router
-import axios from "axios"; // Axios for making HTTP requests
-import RegistrationForm from "../components/RegistrationForm"; // Import your RegistrationForm component
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import RegistrationForm from "../components/RegistrationForm";
 
 const RegisterPage = () => {
-  const [error, setError] = useState(""); // Error message state
-  const [message, setMessage] = useState(""); // Success message state
-  const router = useRouter(); // Use Next.js router for navigation
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleRegister = async (email, password, fullName) => {
     try {
-      // Send POST request to FastAPI backend for user registration
       const response = await axios.post("http://127.0.0.1:8000/register", {
         email,
         password,
         full_name: fullName,
       });
 
-      setMessage(response.data.message); // Show success message
+      setMessage(response.data.message);
 
-      // Optionally, you can redirect to the login page after successful registration
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -37,7 +34,6 @@ const RegisterPage = () => {
         {message && <p className="text-green-500 mb-4">{message}</p>}
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <RegistrationForm onRegister={handleRegister} />{" "}
-        {/* Pass handleRegister as a prop */}
       </div>
     </div>
   );
