@@ -15,7 +15,7 @@ const LoginForm = ({ onLogin }) => {
     }
 
     try {
-      // Pass the credentials to the parent component's onLogin handler
+      // Pass credentials to the parent component's onLogin handler
       await onLogin(email, password);
     } catch (err) {
       setError("Error logging in. Please try again.");
