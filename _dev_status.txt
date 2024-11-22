@@ -1,0 +1,24 @@
+---------------------------------------------------------------------------------
+Current Project Status  
+---------------------------------------------------------------------------------
+ Login System completed 
+ Front page set up completed 
+ Shadcn / tailwind installed 
+
+---------------------------------------------------------------------------------
+ Upcoming Tasks 
+ ---------------------------------------------------------------------------------
+ 1. Fully intergate the shadcn lib for the UI compontents - 2 Hours
+ 2. Create admin layout  - main layout using shadcn 0.5 hours 
+ 3. Create admin menu along with the pages - admin dash/ projects / tasks / user profile 1 hour 
+ 4. Improve add tasks and add projects page UI and forms to use shadcn 1 hour 
+ 5. Link up the tasks and projects  when adding and editing  tasks  2 hours 
+ 6. Create the scoring algorithm for tasks and project scores  3 hours 
+ 7. Improve the routes admin/projects as example 0.5 hours 
+ 8. Create the graphs to report tasks, project success 
+ 9. Create the reminders for the tasks and weekly summary along with the future projections
+ 10. Weekly notifications 
+ 11. Add a task timer with connection to the desktop app. 
+ 12. Document - vitepress / video screencast -youtube/ medium post 
+ 13. Create a landing page for the project  - joenjenga.com/projects/{project-title} 
+ ---------------------------------------------------------------------------------
