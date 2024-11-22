@@ -17,7 +17,7 @@ const LoginPage = () => {
 
       if (response.data.success) {
         localStorage.setItem("authToken", response.data.token);
-        router.push("/dashboard");
+        router.push("/admin");
       } else {
         setError("Invalid credentials");
       }

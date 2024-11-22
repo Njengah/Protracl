@@ -4,9 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-const DashboardPage = () => {
+import TaskForm from "../components/TaskForm";
+import TaskList from "../components/TaskList";
+
+//const TasksPage = () => {
+
+export default async function TasksPage () {
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [tasks, setTasks] = useState([]); 
   const router = useRouter();
 
   useEffect(() => {
@@ -16,10 +23,12 @@ const DashboardPage = () => {
       router.push("/login");
     } else {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      console.log(decodedToken);
       axios
         .get(`http://127.0.0.1:8000/user/${decodedToken.sub}`)
         .then((response) => {
           setUser(response.data);
+          console.log("Updated user:", response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -34,6 +43,11 @@ const DashboardPage = () => {
     router.push("/login");
   };
 
+  const handleAddTask = (task) => {
+    
+    setTasks([...tasks, task]);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,6 +59,7 @@ const DashboardPage = () => {
         <div>
           <h2 className="text-2xl font-semibold">Hello, {user?.full_name}</h2>
           <p className="text-gray-600">Email: {user?.email}</p>
+          <p className="text-gray-600">id: {user?.id}</p>
         </div>
         <button
           onClick={handleLogout}
@@ -54,9 +69,15 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-6">Dashboard</h2>
+      <h2 className="text-2xl font-semibold mb-6">Tasks Management</h2>
+
+      {/* TaskForm to add a new task */}
+      <TaskForm onAddTask={handleAddTask} />
+
+      {/* TaskList to display tasks */}
+      <TaskList tasks={tasks} />
     </div>
   );
 };
 
-export default DashboardPage;
+//export default TasksPage;

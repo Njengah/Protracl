@@ -4,14 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-// Import the TaskForm and TaskList components
-import TaskForm from "../components/TaskForm";
-import TaskList from "../components/TaskList";
-
-const TasksPage = () => {
+const AdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [tasks, setTasks] = useState([]); // State for storing tasks
   const router = useRouter();
 
   useEffect(() => {
@@ -21,12 +16,10 @@ const TasksPage = () => {
       router.push("/login");
     } else {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      console.log(decodedToken);
       axios
         .get(`http://127.0.0.1:8000/user/${decodedToken.sub}`)
         .then((response) => {
           setUser(response.data);
-          console.log("Updated user:", response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -41,11 +34,6 @@ const TasksPage = () => {
     router.push("/login");
   };
 
-  const handleAddTask = (task) => {
-    // Add task to the state
-    setTasks([...tasks, task]);
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -57,7 +45,6 @@ const TasksPage = () => {
         <div>
           <h2 className="text-2xl font-semibold">Hello, {user?.full_name}</h2>
           <p className="text-gray-600">Email: {user?.email}</p>
-          <p className="text-gray-600">id: {user?.id}</p>
         </div>
         <button
           onClick={handleLogout}
@@ -67,15 +54,9 @@ const TasksPage = () => {
         </button>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-6">Tasks Management</h2>
-
-      {/* TaskForm to add a new task */}
-      <TaskForm onAddTask={handleAddTask} />
-
-      {/* TaskList to display tasks */}
-      <TaskList tasks={tasks} />
+      <h2 className="text-2xl font-semibold mb-6">Dashboard</h2>
     </div>
   );
 };
 
-export default TasksPage;
+export default AdminPage;
