@@ -235,7 +235,7 @@ def reset_password(request: ResetPassword, db: Session = Depends(get_db)):
 def get_user(email: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == email).first()
     if user:
-        return {"email": user.email, "full_name": user.full_name}
+        return {"id": user.id, "email": user.email, "full_name": user.full_name}
     raise HTTPException(status_code=404, detail="User not found")
 
 

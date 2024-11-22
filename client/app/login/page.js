@@ -17,7 +17,7 @@ const LoginPage = () => {
 
       if (response.data.success) {
         localStorage.setItem("authToken", response.data.token);
-        router.push("/tasks");
+        router.push("/dashboard");
       } else {
         setError("Invalid credentials");
       }

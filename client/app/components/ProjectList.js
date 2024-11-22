@@ -1,5 +1,3 @@
-// Component
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -18,7 +16,7 @@ const ProjectList = ({ userId }) => {
     }
 
     axios
-      .get(`http://127.0.0.1:8000/user/${userId}/projects`) // Fetch projects of the logged-in user
+      .get(`http://127.0.0.1:8000/projects?user_id=${userId}`) // Fetch projects of the logged-in user
       .then((response) => {
         setProjects(response.data); // Update the state with the fetched projects
         setLoading(false); // Stop loading
