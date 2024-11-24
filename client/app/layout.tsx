@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 export const metadata: Metadata = {
-  title: 'Protracl ~ Task Management',
+  title: 'Protrask ~ Task Management',
   description: 'Project Task Tracking Tool',
 }
 

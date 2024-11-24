@@ -39,7 +39,7 @@ export default async function Home() {
 //       <Navbar />
 
 //       <div className="flex-grow flex justify-center items-center">
-//         <div className="text-3xl font-semibold">Welcome to Protracl</div>
+//         <div className="text-3xl font-semibold">Welcome to Protrask</div>
 //       </div>
 
 //       <Footer />
